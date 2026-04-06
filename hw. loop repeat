@@ -1,0 +1,17 @@
+inputStr = input("Enter a value or empty string to stop: ")
+firstnum = 0
+previousnum = 0
+
+while inputStr != "":
+    num = int(inputStr)  
+
+    if num > 0:
+        firstnum  = firstnum  + 1
+
+    if num == previousnum:
+        print("The number", num, "is repeated!")
+
+    previousnum = num
+    inputStr = input("Enter a value or empty string to stop: ")
+
+print(" the number is  not repeat " )
