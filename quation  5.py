@@ -24,30 +24,39 @@ def factorial(n):
         total=total*i
     print(total)
 
-factorial(5)
+factorial(3)
 
 print()
 
         
 
  #4write a function Fibonacci Number
-def Fibonacci (n):
+def Fibonacci(n):    
     a=0
     b=1
-    for i in range(0,6):
-        if num<12:   
+    print(a)
+    for i in range(n):
+        temp=a
+        a=b
+        b=b+temp
+        if a>7:
+            break
+        else:
+            print(a)
+Fibonacci(5)       
+           
         
-        
-Fibonacci (3)
-
-    
-        
+            
 #5 Write a function sum_squares(n) that returns 1^1 + ... + n^n .
 def sum_squares(n):
-    for num in range (1,2):
+    summ=0
+    for i in range (1,n+1):
+        result=i**i
+        summ+=result
+    return summ
+print(sum_squares(4))
+        
          
-        print(n,"^",n,"=",n**n+num)
-sum_squares(5)
-         
+     
 
     
