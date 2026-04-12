@@ -30,24 +30,29 @@ while True:
     else:
         print("Wrong username or password, try again")
 
-
 print("1. Check balance")
 print("2. Deposit money")
 print("3. Withdraw money")
 
-choice = input("Choose option 1, 2, 3: ")
+choice = input("Choose option 1, 2, 3, or q to quit: ")
 
+while choice != "q":
+    if choice == "1":
+        print("Your balance is:", display())
 
-if choice == "1":
-    print("Your balance is:", display())
+    elif choice == "2":
+        deposit()
+        print("Your new balance is:",display())
 
-elif choice == "2":
-    deposit()
-    print("Your new balance is:",display())
+    elif choice == "3":
+            withdraw()
+            print("Your new balance is:", display())
+       
+    else:
+        print("Invalid choice")
+        
+    print("1. Check balance")
+    print("2. Deposit money")
+    print("3. Withdraw money")
 
-elif choice == "3":
-        withdraw()
-        print("Your new balance is:", display())
-   
-else:
-    print("Invalid choice")
+    choice = input("Choose option 1, 2, 3, or q to quit: ")
