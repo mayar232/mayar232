@@ -1,8 +1,10 @@
-friend=['ali','muna','ahamed','reem','malake']
-friend.append(" ")
-x=1
+listt = ["Ali","Muna","Ahmed","Reem","Nuha"]
+add = []
+for i in range(1):
+    add.append(listt[1])
+    add.append("mayar")
 
-for i in range (len(friend),-1,x,-1):
-    friend[i]=friend[i-1]
-    friend[1] = "raneem"
-    print(friend)      
+    for j in range(1,len(listt)):
+        add.append(listt[j])
+    print(add)
+    

@@ -2,14 +2,14 @@ friend=['ali','muna','ahamed','reem','malake']
 friend. insert (1,"mayar")
 print(friend)
 print("--------")
-
+################################################
 friend=['ali','muna','ahamed','reem','malake']
 if "ali" in friend:
     print(" in list")
 else:
         print("not found")
 print("_____________")
-
+##################################################
 friend=['ali','muna','ahamed','reem','malake']
 n=friend.index("muna")
 print(n)
@@ -18,7 +18,7 @@ friend=['ali','muna','ahamed','reem','malake']
 friend.pop(2)
 print(friend)
 print("_--------")
-
+############################################
 friend=['ali','muna','ahamed','reem','malake']
 friend.remove("ali")
 print(friend)
@@ -50,7 +50,7 @@ print (len(temretures))
 fourquarater=temretures[:6]
 print(fourquarater)
 
-
+############################
 
 matrix=[
             [2,4,5,1],
