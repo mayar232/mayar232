@@ -1,18 +1,15 @@
-values=[1,1,1,3,4,4,5,4]
-for i in range(len(values)):
-    for m in range(i+1,len(values)):
 
-        if values[i]==values[m]:
-           
-            print(values[i],values[m]) 
+#H.W
          
 values = [1,1,1,3,4,4,5,4]
 check=[]
-
 for i in values:
+    rep=0
     if i not in check:
-     check.append(i)
-
-for x in check:
-    value=values.count(x)
-    print(x, "repeated", value, "times")
+       for j in check:
+            if i==j:
+                rep=rep+1
+        check.append(i)
+        if rep>1:
+        
+             print(x, "repeated", value, "times")
