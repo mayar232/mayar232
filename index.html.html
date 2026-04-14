@@ -1,0 +1,139 @@
+
+<div style="background:#000;min-height:680px;border-radius:24px;display:flex;align-items:center;justify-content:center;padding:0;font-family:var(--font-sans);overflow:hidden;">
+  <div id="app" style="width:360px;min-height:640px;display:flex;flex-direction:column;padding:0;"></div>
+</div>
+
+<script>
+const PINK = '#E8417A';
+const PINK_DARK = '#C42F60';
+const PINK_SOFT = 'rgba(232,65,122,0.15)';
+const CARD_BG = '#111';
+const CARD2 = '#1a1a1a';
+
+let balance = 2000;
+
+function loginScreen() {
+  return `
+  <div style="padding:48px 32px 32px;display:flex;flex-direction:column;gap:0;flex:1;">
+    <div style="text-align:center;margin-bottom:40px;">
+      <div style="width:64px;height:64px;border-radius:20px;background:${PINK};display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;">💳</div>
+      <h1 style="color:#fff;font-size:26px;font-weight:500;margin:0 0 6px;">Welcome back</h1>
+      <p style="color:#888;font-size:14px;margin:0;">Sign in to your account</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:28px;">
+      <div>
+        <label style="color:#aaa;font-size:12px;display:block;margin-bottom:6px;letter-spacing:0.05em;">USERNAME</label>
+        <input id="inp-user" type="text" placeholder="Enter username" style="width:100%;box-sizing:border-box;background:${CARD_BG};border:1.5px solid #2a2a2a;border-radius:14px;padding:14px 16px;color:#fff;font-size:15px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='${PINK}'" onblur="this.style.borderColor='#2a2a2a'">
+      </div>
+      <div>
+        <label style="color:#aaa;font-size:12px;display:block;margin-bottom:6px;letter-spacing:0.05em;">PASSWORD</label>
+        <input id="inp-pass" type="password" placeholder="Enter password" style="width:100%;box-sizing:border-box;background:${CARD_BG};border:1.5px solid #2a2a2a;border-radius:14px;padding:14px 16px;color:#fff;font-size:15px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='${PINK}'" onblur="this.style.borderColor='#2a2a2a'">
+      </div>
+    </div>
+    <div id="login-err" style="color:${PINK};font-size:13px;text-align:center;margin-bottom:12px;min-height:20px;"></div>
+    <button onclick="doLogin()" style="width:100%;background:${PINK};border:none;border-radius:14px;padding:15px;color:#fff;font-size:16px;font-weight:500;cursor:pointer;transition:background 0.2s;letter-spacing:0.02em;" onmouseover="this.style.background='${PINK_DARK}'" onmouseout="this.style.background='${PINK}'">Sign In</button>
+    <p style="color:#555;font-size:12px;text-align:center;margin-top:24px;">Demo: admin / 1234</p>
+  </div>`;
+}
+
+function dashboardScreen() {
+  return `
+  <div style="display:flex;flex-direction:column;flex:1;min-height:640px;">
+    <div style="background:linear-gradient(135deg,#1a0a10,#2a0f1c);padding:32px 24px 28px;border-radius:0 0 32px 32px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
+        <div>
+          <p style="color:#aaa;font-size:13px;margin:0 0 2px;">Good morning</p>
+          <p style="color:#fff;font-size:17px;font-weight:500;margin:0;">Admin User</p>
+        </div>
+        <div style="width:40px;height:40px;border-radius:50%;background:${PINK_SOFT};border:1.5px solid ${PINK};display:flex;align-items:center;justify-content:center;color:${PINK};font-size:16px;">A</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(232,65,122,0.2);border-radius:20px;padding:20px 22px;">
+        <p style="color:#888;font-size:12px;margin:0 0 8px;letter-spacing:0.06em;">TOTAL BALANCE</p>
+        <p id="balance-display" style="color:#fff;font-size:36px;font-weight:500;margin:0 0 4px;">$${balance.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2})}</p>
+        <p style="color:${PINK};font-size:13px;margin:0;">● Active account</p>
+      </div>
+    </div>
+
+    <div style="padding:24px;flex:1;display:flex;flex-direction:column;gap:16px;">
+      <p style="color:#888;font-size:12px;margin:0;letter-spacing:0.06em;">QUICK ACTIONS</p>
+
+      <button onclick="showPanel('deposit')" style="background:${CARD2};border:1px solid #2a2a2a;border-radius:16px;padding:18px 20px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:16px;text-align:left;transition:border-color 0.2s;width:100%;" onmouseover="this.style.borderColor='${PINK}'" onmouseout="this.style.borderColor='#2a2a2a'">
+        <div style="width:44px;height:44px;border-radius:12px;background:${PINK_SOFT};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">⬆</div>
+        <div>
+          <p style="font-weight:500;font-size:15px;margin:0 0 2px;">Deposit money</p>
+          <p style="color:#666;font-size:13px;margin:0;">Add funds to your account</p>
+        </div>
+        <div style="margin-left:auto;color:#555;font-size:18px;">›</div>
+      </button>
+
+      <button onclick="showPanel('withdraw')" style="background:${CARD2};border:1px solid #2a2a2a;border-radius:16px;padding:18px 20px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:16px;text-align:left;transition:border-color 0.2s;width:100%;" onmouseover="this.style.borderColor='${PINK}'" onmouseout="this.style.borderColor='#2a2a2a'">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(65,180,232,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">⬇</div>
+        <div>
+          <p style="font-weight:500;font-size:15px;margin:0 0 2px;">Withdraw money</p>
+          <p style="color:#666;font-size:13px;margin:0;">Transfer to your wallet</p>
+        </div>
+        <div style="margin-left:auto;color:#555;font-size:18px;">›</div>
+      </button>
+
+      <div id="action-panel" style="display:none;background:${CARD2};border:1px solid #2a2a2a;border-radius:16px;padding:20px;"></div>
+
+      <div style="margin-top:auto;">
+        <button onclick="doLogout()" style="width:100%;background:transparent;border:1px solid #2a2a2a;border-radius:14px;padding:13px;color:#666;font-size:14px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='#fff';this.style.borderColor='#444'" onmouseout="this.style.color='#666';this.style.borderColor='#2a2a2a'">Sign out</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function showPanel(type) {
+  const panel = document.getElementById('action-panel');
+  panel.style.display = 'block';
+  const label = type === 'deposit' ? 'Deposit' : 'Withdraw';
+  const color = type === 'deposit' ? PINK : '#41B4E8';
+  panel.innerHTML = `
+    <p style="color:#fff;font-size:15px;font-weight:500;margin:0 0 14px;">${label} amount</p>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <input id="amt-input" type="number" min="0" placeholder="0.00" style="flex:1;background:#0a0a0a;border:1.5px solid #333;border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;" onfocus="this.style.borderColor='${color}'" onblur="this.style.borderColor='#333'">
+      <button onclick="doTransaction('${type}')" style="background:${color};border:none;border-radius:12px;padding:13px 20px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">${label}</button>
+    </div>
+    <div id="txn-msg" style="min-height:18px;margin-top:10px;font-size:13px;color:#aaa;"></div>`;
+}
+
+function doTransaction(type) {
+  const input = document.getElementById('amt-input');
+  const amt = parseFloat(input.value);
+  const msg = document.getElementById('txn-msg');
+  if (!amt || amt <= 0) { msg.style.color=PINK; msg.textContent='Please enter a valid amount.'; return; }
+  if (type === 'withdraw' && amt > balance) { msg.style.color=PINK; msg.textContent='Insufficient balance.'; return; }
+  balance = type === 'deposit' ? balance + amt : balance - amt;
+  document.getElementById('balance-display').textContent = '$' + balance.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2});
+  input.value = '';
+  msg.style.color = '#4ade80';
+  msg.textContent = (type === 'deposit' ? 'Deposited' : 'Withdrawn') + ' $' + amt.toFixed(2) + ' successfully.';
+  setTimeout(() => { if(msg) msg.textContent = ''; }, 3000);
+}
+
+function doLogin() {
+  const user = document.getElementById('inp-user').value;
+  const pass = document.getElementById('inp-pass').value;
+  const err = document.getElementById('login-err');
+  if (user === 'admin' && pass === '1234') {
+    document.getElementById('app').innerHTML = dashboardScreen();
+  } else {
+    err.textContent = 'Incorrect username or password.';
+    setTimeout(() => { if(err) err.textContent=''; }, 2500);
+  }
+}
+
+function doLogout() {
+  document.getElementById('app').innerHTML = loginScreen();
+}
+
+document.getElementById('app').innerHTML = loginScreen();
+
+document.getElementById('app').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const btn = document.querySelector('button');
+    if (btn && btn.textContent === 'Sign In') doLogin();
+  }
+});
+</script>
