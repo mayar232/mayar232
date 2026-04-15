@@ -3,15 +3,15 @@ records = [
     {'Math': 90, 'Science': 88, 'English': 85}
 ]
 
-averages = {}
+average = {}
+subjects = records[0].keys() 
 
-for subject in records[0]:
+for subject in subjects:
     total = 0
-    
     for record in records:
-        total += record[subject]
+        total =total+ record[subject]
     
     avg = total / len(records)
-    averages[subject] = avg
+    average[subject] = avg
 
-print(averages)
+print(average)
