@@ -9,9 +9,9 @@ for file in path.iterdir():
          for line in f:
             print(line.strip())
  ###########################################################################
-    from pathlib import Path
+from pathlib import Path
 
-path = Path(""C:/Users/DELL/Desktop/math"")
+path = Path("C:/Users/DELL/Desktop/math")
 
 for file in path.iterdir():
     if file.is_file():
@@ -20,10 +20,20 @@ for file in path.iterdir():
 
         with open(file, "r", encoding="utf-8") as f:
             lines = f.readlines()
+            if len(lines) > 0:
+                name = lines[0].strip()
+            else:
+                    name = "Not found"
 
-        name = lines[0].strip() if len(lines) > 0 else "Not found"
-        number = lines[1].strip() if len(lines) > 1 else "Not found"
-        description = "".join(lines[2:]).strip() if len(lines) > 2 else "Not found"
+            if len(lines) > 1:
+                    number = lines[1].strip()
+            else:
+                number = "Not found"
+
+            if len(lines) > 2:
+                description = "".join(lines[2:]).strip()
+            else:
+                description = "Not found"
 
         print("Name:", name)
         print("Number:", number)
