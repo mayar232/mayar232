@@ -9,7 +9,7 @@ for file in path.iterdir():
          for line in f:
             print(line.strip())
  ###########################################################################
-    from pathlib import Path
+from pathlib import Path
 
 path = Path("C:/Users/DELL/Desktop/math")
 
