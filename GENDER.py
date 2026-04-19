@@ -1,19 +1,17 @@
+major = input("please enter your major: ")
+gender = input("please enter your gender: ")
 
-major=input("please enter your major  : ")
-gender=input("please enter your gender  : ")
-major.lower()
-gender.lower()
+major = major.lower()
+gender = gender.lower()
 
-if major.find("eng") !=0:
-    if gender.find("fem") >=0:
-        
-         print("you are a wonderful girl engineering")
+if "eng" in major:
+    if "fem" in gender:
+        print("you are a wonderful girl engineering")
     else:
-         print("you are eng but not femal")
-    
-    
+        print("you are eng but not female")
 else:
-    print(" you are male ")
-        
+    print("you are not engineering")
+    
+           
            
            

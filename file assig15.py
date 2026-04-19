@@ -37,4 +37,8 @@ for file in path.iterdir():
         print("Number:", number)
         print("Example:", example)
         print("Description:", description)
+<<<<<<< HEAD
         print("-------------------------")
+=======
+        print("------------------------------------------------------------")
+>>>>>>> 201762598a32fdda714fc41af36d47facff790f7
