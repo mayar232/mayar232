@@ -214,24 +214,113 @@ WHERE date_of_birth IS NULL;
 SELECT * FROM Movie
 ORDER BY title ASC;
 
--- Retrieve movies whose duration is greater than ANY Sci-Fi movie duration.
+-- 1-Retrieve movies whose duration is greater than ANY Sci-Fi movie duration.
 
 select * from genre;
 
 
-SELECT *FROM Movie
-WHERE duration > ANY (
+SELECT *
+FROM Movie
+WHERE duration >any (
     SELECT duration
     FROM Movie
-   where movie_id in(
-   select  movie_id
-   
-        FROM movie_Genre
-        WHERE genre_id = (
+    WHERE movie_id IN (
+        SELECT movie_id
+        FROM Movie_Genre
+        WHERE genre_id IN (
             SELECT genre_id
             FROM Genre
-            WHERE name_type =' Sci-Fi'
-	))
-    
-); 
-  SELECT *FROM Movie;
+            WHERE name_type = 'Sci-Fi'
+        )
+    )
+);
+
+-- 2 Retrieve all movies produced by companies located in USA.
+  SELECT *FROM Movie
+WHERE product_id IN (
+    SELECT p_id
+    FROM Production
+    WHERE address = 'USA'
+);
+
+
+--  3 Find movies whose duration is greater than ALL movies released in 2014.
+
+SELECT *FROM Movie
+WHERE duration > ALL (
+    SELECT duration
+    FROM Movie
+    WHERE YEAR(year) = 2014
+);
+-- Retrieve actors who have never acted in any movie.
+SELECT * FROM Actor
+WHERE actor_id NOT IN (
+    SELECT actor_id
+    FROM Movie_Actor);
+    -- 4 Find movies that have NOT been acted in by "Keanu Reeves".
+select * from movie
+where movie_id not in(select movie_id  from movie_actor
+where actor_id=(select actor_id from actor where name='Keanu Reeves'));
+
+
+select duration from movie where duration>(
+select avg(duration) from movie);
+
+SELECT 
+    count(*) AS total_employees,
+    SUM(duration) AS total_duration,
+    AVG(duration) AS avg_duration,
+    MIN(duration) AS min_duration,
+    MAX(duration) AS max_duration
+FROM movie;
+
+select product_id, count(movie_id)as totalMovies
+from movie
+group by product_id;
+
+select movie_id,count(actor_id)as totalActors
+from movie_actor
+group by movie_id
+having count(actor_id)>0
+order by movie_id;
+
+select year(year)as ye, avg(duration)as avgDuration
+from movie
+ group by year(year)
+having avg (duration)>150 and ye>2000 ;
+
+select year(year)as ye, avg(duration)as avgDuration
+from movie
+where year(year)>2000
+ group by year(year)
+having avg (duration)>150 and ye>2000 ;
+
+select mov.title, pro.name
+from movie  mov
+ inner join production  pro
+on mov.product_id=pro.p_id;
+
+-- use  group by
+select pro.name ,count( mov.title)
+from movie  mov
+ inner join production  pro
+on mov.product_id=pro.p_id
+group by pro.name;
+
+-- Display the production company name and the average movie duration it produces.(Production, Movie)
+select pro.name, avg(mov.duration)
+from movie mov
+inner join production pro
+on mov.product_id=pro.p_id
+group by pro.name ;
+
+-- Find the movie title and the number of actors in each movie.(Movie, Movie_Actor)
+
+
+select mov.title, count(act.actor_id)
+FROM
+    movie mov
+JOIN movie_actor act On mov.movie_id = act.movie_id
+group by
+    mov.movie_id,
+    mov.title;
