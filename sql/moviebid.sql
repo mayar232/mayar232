@@ -312,7 +312,7 @@ select pro.name, avg(mov.duration)
 from movie mov
 inner join production pro
 on mov.product_id=pro.p_id
-group by pro.name ;
+group by pro.name;
 
 -- Find the movie title and the number of actors in each movie.(Movie, Movie_Actor)
 
@@ -320,7 +320,135 @@ group by pro.name ;
 select mov.title, count(act.actor_id)
 FROM
     movie mov
-JOIN movie_actor act On mov.movie_id = act.movie_id
+inner JOIN movie_actor act On mov.movie_id = act.movie_id
 group by
     mov.movie_id,
     mov.title;
+-- -Find all production company names that have produced movies with duration greater than 150 minutes.(Production, Movie)
+select pro.name, mov.duration
+from movie mov
+inner join production pro
+on mov.product_id=pro.p_id
+where duration>150 ;
+-- Find the movie title and the number of quotes in each movie. (Movie, Quotes)
+SELECT m.title, COUNT(q.quote_id) 
+FROM Movie m
+inner JOIN Quotes q
+    ON m.movie_id = q.movie_id
+GROUP BY m.movie_id, m.title;
+-- 7List all movie titles and their production company names, only for movies released on or after 2014-01-01.(Movie, Production)
+
+select mov.title,pro.name
+from movie mov
+inner join production pro
+on mov.product_id=pro.p_id
+where year >' 2014-01-01';
+-- 8 Find the movie title and the production company name for all movies that belong to production companies located in the USA.(Movie, Production)
+
+SELECT  m.title, p.name,p.address
+FROM Movie m
+INNER JOIN Production p
+    ON m.product_id = p.p_id
+WHERE p.address = 'USA';
+
+select m.title ,act.name
+from movie m
+inner join movie_actor ma  on m.movie_id=ma.movie_id
+inner join actor act on act.actor_id=act.actor_id;
+
+
+
+
+
+ -- left join
+ 
+  select g.name_type,m.title
+  from genre g
+  left join movie_genre mg
+  on g.genre_id=mg.genre_id
+  left join movie m
+  on m.movie_id=mg.movie_id;
+  
+  
+  --  List all movies and their production company names, including movies that do not have a production company assigned.
+select m.title, p.name 
+from Movie m
+left join Production p
+on m.product_id = p.p_id;
+  
+-- List all actors and the movies they acted in, including actors who have not acted in any movie.
+
+
+SELECT a.name , m.title 
+FROM Actor a
+LEFT JOIN Movie_Actor ma
+    ON a.actor_id = ma.actor_id
+LEFT JOIN Movie m
+    ON ma.movie_id = m.movie_id;
+    
+    -- List all actors and the quotes they said using RIGHT JOIN, including quotes that are not linked to any actor.
+  SELECT a.name , q.text 
+FROM Actor a
+RIGHT JOIN Quotes q
+    ON a.actor_id = q.actor_id;  
+-- Display all movies and their genres using RIGHT JOIN, including genres that currently have no movies assigned.
+
+
+select m.title, g.name_type
+FROM Movie m
+RIGHT JOIN Movie_Genre mg
+    ON m.movie_id = mg.movie_id
+RIGHT JOIN Genre g
+    ON mg.genre_id = g.genre_id;
+-- union
+
+select m.title, g.name_type
+FROM Movie m
+left JOIN Movie_Genre mg
+    ON m.movie_id = mg.movie_id
+left JOIN Genre g
+    ON mg.genre_id = g.genre_id
+    union
+    select m.title, g.name_type
+FROM Movie m
+RIGHT JOIN Movie_Genre mg
+    ON m.movie_id = mg.movie_id
+RIGHT JOIN Genre g
+    ON mg.genre_id = g.genre_id;
+    
+    select m.title, act.name
+        
+    from movie m
+    cross join actor  act;
+    
+CREATE INDEX movie ON movie(title);
+show index from movie;
+-- view  
+create view long_films as
+select duration,title,year,movie_id
+ from movie
+  where duration >150;
+  select* from long_films;
+  
+  update movie set duration=120 where movie_id=2;
+    select * from movie ;
+    update long_films set duration=120 where movie_id=3;
+     select * from movie ;
+     
+     
+CREATE VIEW movie_act AS
+select  m.title, act.name
+FROM movie m
+INNER JOIN movie_actor ma 
+    ON m.movie_id = ma.movie_id
+INNER JOIN actor act 
+    ON ma.actor_id = act.actor_id;
+     
+     select * from movie;
+     
+START TRANSACTION;
+
+INSERT INTO Actor (name, date_of_birth)
+VALUES ('Tom Cruise', '1962-07-03');
+
+COMMIT;
